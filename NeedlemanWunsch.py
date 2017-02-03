@@ -49,9 +49,9 @@ class NeedlemanWunsch(object):
         D = np.zeros((n + 1, m + 1), dtype=self.dtype)
         E = np.zeros((n + 1, m + 1), dtype=np.int32)
         for i in range(0, n + 1):
-            D[i, 0] = -1 * i
+            D[i, 0] = i * self.gap_score
         for j in range(0, m + 1):
-            D[0, j] = -1 * j
+            D[0, j] = j * self.gap_score
 
         for i in range(1, n + 1):
             for j in range(1, m + 1):
@@ -60,6 +60,7 @@ class NeedlemanWunsch(object):
                 diagonal = D[i - 1, j - 1] + self.align_score(a, i, b, j)
 
                 best_score = max(up, left, diagonal)
+
                 D[i, j] = best_score
                 if best_score == up:
                     E[i, j] = UP
