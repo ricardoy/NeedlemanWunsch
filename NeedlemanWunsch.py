@@ -21,8 +21,7 @@ class NeedlemanWunsch(object):
 
     __metaclass__ = ABCMeta
 
-    def __init__(self, dtype, gap_score):
-        self.dtype = dtype
+    def __init__(self, gap_score):
         self.gap_score = gap_score
 
     @abstractmethod
@@ -37,6 +36,10 @@ class NeedlemanWunsch(object):
     def size(self, v):
         return
 
+    @abstractmethod
+    def dtype(self):
+        return
+
     def align_score(self, a, i, b, j):
         a_i = self.retrieve_position(a, i - 1)
         b_j = self.retrieve_position(b, j - 1)
@@ -46,7 +49,7 @@ class NeedlemanWunsch(object):
         n = self.size(a)
         m = self.size(b)
 
-        D = np.zeros((n + 1, m + 1), dtype=self.dtype)
+        D = np.zeros((n + 1, m + 1), dtype=self.dtype())
         E = np.zeros((n + 1, m + 1), dtype=np.int32)
         for i in range(0, n + 1):
             D[i, 0] = i * self.gap_score
